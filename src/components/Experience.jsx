@@ -1,13 +1,16 @@
-import { OrbitControls } from "@react-three/drei";
+import { Environment, OrbitControls, useTexture } from "@react-three/drei";
+import {Litfass} from "./Litfass";
 
 export const Experience = () => {
   return (
     <>
       <OrbitControls />
-      <mesh>
+      <Litfass />
+      <Environment preset="city" />
+      {/* <mesh>
         <boxGeometry />
         <meshNormalMaterial />
-      </mesh>
+      </mesh> */}
     </>
   );
 };
