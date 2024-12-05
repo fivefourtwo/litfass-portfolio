@@ -33,7 +33,7 @@ export function Litfass(props) {
             console.log(delta);
 
             //cancel the animation if the difference is less than 0.01
-            if (Math.abs(delta) <= animationStep / 1.2) {
+            if (Math.abs(delta) <= animationStep) {
                 decalRef.current.scale.set(target, target, target);
                 console.log("animation cancelled");
                 return;
