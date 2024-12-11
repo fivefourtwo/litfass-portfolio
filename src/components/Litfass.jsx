@@ -1,55 +1,61 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Decal, useGLTF, useTexture } from '@react-three/drei';
+import React, { useRef, useState } from 'react';
+import { useGLTF, useTexture } from "@react-three/drei";
+import { useFrame } from '@react-three/fiber';
+import * as THREE from 'three';
 
-export function Litfass(props) {
-  const texture = useTexture("/flyers/project1.png");
-  const { nodes, materials } = useGLTF('/models/litfass.glb');
+const Poster = ({ texture, position, project, onProjectSelect }) => {
+  const meshRef = useRef();
+  const [isHovered, setIsHovered] = useState(false);
 
-  // Zustand für die Skalierung und Position des Decals
-  const [scale, setScale] = useState([1, 1.2, 1]); // Anfangsskala
-  const [position, setPosition] = useState([0, 1.8, 1]); // Anfangsposition
-  const decalRef = useRef();
-
-  // Handler für Hover-Effekte
-  const handlePointerEnter = () => {
-    setScale([1.5, 1.7, 1.5]); // Größere Skalierung beim Hover
-    setPosition([0, 1.8 - 0.5, 1]); // Position leicht nach unten verschieben
-  };
-
-  const handlePointerLeave = () => {
-    setScale([1, 1.2, 1]); // Zurück zur ursprünglichen Skalierung
-    setPosition([0, 1.8, 1]); // Zurück zur ursprünglichen Position
-  };
-
-  // Effekt, um Skalierung und Position des Decals zu aktualisieren
-  useEffect(() => {
-    if (decalRef.current) {
-      decalRef.current.scale.set(...scale); // Setzt die neue Skalierung
+  useFrame(() => {
+    if (meshRef.current) {
+      const targetScale = isHovered ? 1.05 : 1;
+      meshRef.current.scale.lerp(new THREE.Vector3(targetScale, targetScale, 1), 0.1);
     }
-  }, [scale]);
+  });
 
   return (
-    <group {...props} dispose={null}>
-      <mesh geometry={nodes.Cylinder006.geometry} material={materials['Litfass_Material.001']} />
-      <mesh geometry={nodes.Cylinder006_1.geometry}>
-        <meshBasicMaterial transparent opacity={0} />
-        <Decal
-          ref={decalRef}
-          position={position} // Dynamische Position
-          rotation={[0, 0, 0]} // Rotation des Decals
-          scale={scale} // Dynamische Skalierung basierend auf dem Zustand
-          onPointerEnter={handlePointerEnter} // Hover einleiten
-          onPointerLeave={handlePointerLeave} // Hover beenden
-        >
-          <meshStandardMaterial
-            map={texture}
-            polygonOffset
-            polygonOffsetFactor={-1} // Priorisiert das Dekal über die ursprüngliche Geometrie
-          />
-        </Decal>
-      </mesh>
-    </group>
+    <mesh
+      ref={meshRef}
+      position={position}
+      onPointerOver={() => setIsHovered(true)}
+      onPointerOut={() => setIsHovered(false)}
+      onClick={() => onProjectSelect(project)}
+    >
+      <planeGeometry args={[1, 1]} />
+      <meshBasicMaterial map={texture} transparent />
+    </mesh>
   );
-}
+};
 
-useGLTF.preload('/models/litfass.glb');
+export const Litfass = ({ projects, onProjectSelect }) => {
+  const { scene } = useGLTF("/models/litfass.glb");
+  
+  // Load poster textures
+  const posterTextures = projects.map(project => 
+    useTexture(project.image)
+  );
+
+  return (
+    <>
+      <primitive object={scene} />
+      
+      {/* Position posters around the column */}
+      {posterTextures.map((texture, index) => (
+        <Poster 
+          key={index}
+          texture={texture}
+          project={projects[index]}
+          position={[
+            Math.cos(index * (Math.PI * 2 / projects.length)) * 2,
+            Math.sin(index * (Math.PI * 2 / projects.length)) * 2,
+            0.5
+          ]}
+          onProjectSelect={onProjectSelect}
+        />
+      ))}
+    </>
+  );
+};
+
+useGLTF.preload("/litfass.glb");
