@@ -5,18 +5,26 @@ export function Litfass(props) {
   const texture = useTexture("/flyers/project1.png");
   const { nodes, materials } = useGLTF('/models/litfass.glb');
 
-  // Zustand für die Skalierung des Dekals
+  // Zustand für die Skalierung und Position des Decals
   const [scale, setScale] = useState([1, 1.2, 1]); // Anfangsskala
+  const [position, setPosition] = useState([0, 1.8, 1]); // Anfangsposition
   const decalRef = useRef();
 
   // Handler für Hover-Effekte
-  const handlePointerEnter = () => setScale([1.8, 2, 1.8]); // Skalierung beim Hover
-  const handlePointerLeave = () => setScale([1, 1.2, 1]); // Skalierung nach dem Verlassen des Hovers
+  const handlePointerEnter = () => {
+    setScale([1.5, 1.7, 1.5]); // Größere Skalierung beim Hover
+    setPosition([0, 1.8 - 0.5, 1]); // Position leicht nach unten verschieben
+  };
 
-  // Effekt, um die Skalierung des Dekals zu aktualisieren
+  const handlePointerLeave = () => {
+    setScale([1, 1.2, 1]); // Zurück zur ursprünglichen Skalierung
+    setPosition([0, 1.8, 1]); // Zurück zur ursprünglichen Position
+  };
+
+  // Effekt, um Skalierung und Position des Decals zu aktualisieren
   useEffect(() => {
     if (decalRef.current) {
-      decalRef.current.scale.set(...scale); // Setzt die neue Skalierung des Dekals
+      decalRef.current.scale.set(...scale); // Setzt die neue Skalierung
     }
   }, [scale]);
 
@@ -27,8 +35,8 @@ export function Litfass(props) {
         <meshBasicMaterial transparent opacity={0} />
         <Decal
           ref={decalRef}
-          position={[0, 1.8, 1]} // Position des Dekals
-          rotation={[0, 0, 0]} // Rotation des Dekals
+          position={position} // Dynamische Position
+          rotation={[0, 0, 0]} // Rotation des Decals
           scale={scale} // Dynamische Skalierung basierend auf dem Zustand
           onPointerEnter={handlePointerEnter} // Hover einleiten
           onPointerLeave={handlePointerLeave} // Hover beenden
