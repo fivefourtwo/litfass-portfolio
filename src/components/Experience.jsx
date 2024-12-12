@@ -4,7 +4,12 @@ import {Litfass} from "./Litfass";
 export const Experience = () => {
   return (
     <>
-      <OrbitControls />
+      <OrbitControls 
+      enableZoom={false}
+      enablePan={false}
+      minPolarAngle={1.3}
+      maxPolarAngle={1.3}
+      />
       <Litfass />
       <Environment preset="city" />
       {/* <mesh>

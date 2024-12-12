@@ -1,24 +1,29 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Decal, useGLTF, useTexture } from '@react-three/drei';
 
-export function Litfass(props) {
+export function Litfass({ onPosterClick, ...props }) { // Destructure onPosterClick and props
   const texture = useTexture("/flyers/project1.png");
   const { nodes, materials } = useGLTF('/models/litfass.glb');
 
   // Zustand für die Skalierung und Position des Decals
   const [scale, setScale] = useState([1, 1.2, 1]); // Anfangsskala
-  const [position, setPosition] = useState([0, 1.8, 1]); // Anfangsposition
+  const [position, setPosition] = useState([0, 0, 1]); // Anfangsposition
   const decalRef = useRef();
 
   // Handler für Hover-Effekte
   const handlePointerEnter = () => {
     setScale([1.5, 1.7, 1.5]); // Größere Skalierung beim Hover
-    setPosition([0, 1.8 - 0.5, 1]); // Position leicht nach unten verschieben
+    setPosition([0, 1.8 - 1.7, 1]); // Position leicht nach unten verschieben
   };
 
   const handlePointerLeave = () => {
     setScale([1, 1.2, 1]); // Zurück zur ursprünglichen Skalierung
-    setPosition([0, 1.8, 1]); // Zurück zur ursprünglichen Position
+    setPosition([0, 0, 1]); // Zurück zur ursprünglichen Position
+  };
+
+  // Handle click event to open the modal with specific content
+  const handleClickEvent = () => {
+    onPosterClick("This is the detailed information for Project 1."); // Pass content to modal
   };
 
   // Effekt, um Skalierung und Position des Decals zu aktualisieren
@@ -40,6 +45,7 @@ export function Litfass(props) {
           scale={scale} // Dynamische Skalierung basierend auf dem Zustand
           onPointerEnter={handlePointerEnter} // Hover einleiten
           onPointerLeave={handlePointerLeave} // Hover beenden
+          onClick={handleClickEvent} // Trigger click event to open modal
         >
           <meshStandardMaterial
             map={texture}
