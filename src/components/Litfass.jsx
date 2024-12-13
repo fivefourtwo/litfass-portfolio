@@ -1,56 +1,46 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Decal, useGLTF, useTexture } from '@react-three/drei';
+import { useSpring } from '@react-spring/three';
 
-export function Litfass({ onPosterClick, ...props }) { // Destructure onPosterClick and props
+export function Litfass({ onPosterClick, ...props }) {
   const texture = useTexture("/flyers/project1.png");
   const { nodes, materials } = useGLTF('/models/litfass.glb');
+  const [isHovered, setIsHovered] = useState(false);
 
-  // Zustand für die Skalierung und Position des Decals
-  const [scale, setScale] = useState([1, 1.2, 1]); // Anfangsskala
-  const [position, setPosition] = useState([0, 0, 1]); // Anfangsposition
-  const decalRef = useRef();
+  // Spring animation for hover effect
+  const { scale } = useSpring({
+    from: { scale: [1, 1, 1.2] },
+    to: { scale: isHovered ? 1.2 : 1 },
+    config: { tension: 300, friction: 15 }
+  });
 
-  // Handler für Hover-Effekte
-  const handlePointerEnter = () => {
-    setScale([1.5, 1.7, 1.5]); // Größere Skalierung beim Hover
-    setPosition([0, 1.8 - 1.7, 1]); // Position leicht nach unten verschieben
-  };
-
-  const handlePointerLeave = () => {
-    setScale([1, 1.2, 1]); // Zurück zur ursprünglichen Skalierung
-    setPosition([0, 0, 1]); // Zurück zur ursprünglichen Position
-  };
-
-  // Handle click event to open the modal with specific content
   const handleClickEvent = () => {
-    onPosterClick("This is the detailed information for Project 1."); // Pass content to modal
+    onPosterClick("This is the detailed information for Project 1.");
   };
-
-  // Effekt, um Skalierung und Position des Decals zu aktualisieren
-  useEffect(() => {
-    if (decalRef.current) {
-      decalRef.current.scale.set(...scale); // Setzt die neue Skalierung
-    }
-  }, [scale]);
 
   return (
     <group {...props} dispose={null}>
       <mesh geometry={nodes.Cylinder006.geometry} material={materials['Litfass_Material.001']} />
-      <mesh geometry={nodes.Cylinder006_1.geometry}>
+      <mesh 
+        geometry={nodes.Cylinder006_1.geometry}
+        onPointerEnter={() => setIsHovered(true)}
+        onPointerLeave={() => setIsHovered(false)}
+        onClick={handleClickEvent}
+      >
         <meshBasicMaterial transparent opacity={0} />
         <Decal
-          ref={decalRef}
-          position={position} // Dynamische Position
-          rotation={[0, 0, 0]} // Rotation des Decals
-          scale={scale} // Dynamische Skalierung basierend auf dem Zustand
-          onPointerEnter={handlePointerEnter} // Hover einleiten
-          onPointerLeave={handlePointerLeave} // Hover beenden
-          onClick={handleClickEvent} // Trigger click event to open modal
+          position={[0, 0, 0.51]}
+          rotation={[0, 0, 0]}
+          scale={[
+            0.3 * scale.to(v => v), 
+            0.3 * scale.to(v => v), 
+            0.3 * scale.to(v => v)
+          ]}
         >
           <meshStandardMaterial
             map={texture}
             polygonOffset
-            polygonOffsetFactor={-1} // Priorisiert das Dekal über die ursprüngliche Geometrie
+            polygonOffsetFactor={-1}
           />
         </Decal>
       </mesh>
