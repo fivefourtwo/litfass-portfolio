@@ -1,48 +1,65 @@
 import React, { useState } from 'react';
 import { Decal, useGLTF, useTexture } from '@react-three/drei';
-import { useSpring } from '@react-spring/three';
+import { useSpring, animated } from '@react-spring/three';
 
-export function Litfass({ onPosterClick, ...props }) {
+const AnimatedDecal = animated(Decal);
+
+export function Litfass({onPosterClick, ...props }) {
   const texture = useTexture("/flyers/project1.png");
   const { nodes, materials } = useGLTF('/models/litfass.glb');
-  const [isHovered, setIsHovered] = useState(false);
+  const x = 1;
+  const y = 1.1;
+  const z = 1;
+  const fac = 1.1;
 
   // Spring animation for hover effect
-  const { scale } = useSpring({
-    from: { scale: [1, 1, 1.2] },
-    to: { scale: isHovered ? 1.2 : 1 },
-    config: { tension: 300, friction: 15 }
-  });
+  const [springs, api] = useSpring(() => ({
+    scale: [x, y, z],
+    config: {
+      mass: 0.1,
+      friction: 10,
+    }
+  }), []);
 
   const handleClickEvent = () => {
+    api.start({
+      scale: [2.25, 2.475, 2.7],
+    });
     onPosterClick("This is the detailed information for Project 1.");
-  };
+  }
+
+  const handlePointerEnter = () => {
+    api.start({
+      scale: [x * fac, y * fac, z * fac],
+    });
+  }
+
+  const handlePointerLeave = () => {
+    api.start({
+      scale: [x, y, z],
+    });
+  }
 
   return (
     <group {...props} dispose={null}>
       <mesh geometry={nodes.Cylinder006.geometry} material={materials['Litfass_Material.001']} />
-      <mesh 
-        geometry={nodes.Cylinder006_1.geometry}
-        onPointerEnter={() => setIsHovered(true)}
-        onPointerLeave={() => setIsHovered(false)}
-        onClick={handleClickEvent}
-      >
+      <mesh geometry={nodes.Cylinder006_1.geometry}>
         <meshBasicMaterial transparent opacity={0} />
-        <Decal
-          position={[0, 0, 0.51]}
+        <AnimatedDecal
+          // debug
+          onPointerEnter={handlePointerEnter}
+          onPointerLeave={handlePointerLeave}
+          onClick={handleClickEvent}
+          position={[0, 0, 1]}
           rotation={[0, 0, 0]}
-          scale={[
-            0.3 * scale.to(v => v), 
-            0.3 * scale.to(v => v), 
-            0.3 * scale.to(v => v)
-          ]}
+          scale={springs.scale}
         >
           <meshStandardMaterial
             map={texture}
             polygonOffset
             polygonOffsetFactor={-1}
           />
-        </Decal>
+        </AnimatedDecal>
       </mesh>
     </group>
   );
