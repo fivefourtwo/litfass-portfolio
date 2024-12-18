@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Canvas } from "@react-three/fiber";
 import { Experience } from "./components/Experience";
 import Modal from 'react-modal'; // Import Modal from react-modal
+import { Leva } from 'leva';
 
 Modal.setAppElement('#root'); // Required for accessibility
 
@@ -22,6 +23,7 @@ function App() {
 
   return (
     <>
+      <Leva />
       <Canvas shadows camera={{ position: [5, 3, 10], fov: 30 }}>
         <color attach="background" args={["#ececec"]} />
         {/* Pass openModal function as a prop to Experience component */}
