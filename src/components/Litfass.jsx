@@ -5,11 +5,16 @@ import { useControls, folder } from 'leva';
 
 const AnimatedDecal = animated(Decal);
 
-export function Litfass({onPosterClick, ...props }) {
+export function Litfass({onPosterClick, onHoverChange, ...props }) {
   const textures = [
-    useTexture("/flyers/project1.png"),
-    useTexture("/flyers/project2.png"),
-    useTexture("/flyers/project3.png")
+    useTexture("/flyers/project01.png"),
+    useTexture("/flyers/project02.png"),
+    useTexture("/flyers/project03.png"),
+    useTexture("/flyers/project04.png"),
+    useTexture("/flyers/project05.png"),
+    useTexture("/flyers/project06.png"),
+    useTexture("/flyers/project07.png"),
+    useTexture("/flyers/project08.png")
   ];
   const { nodes, materials } = useGLTF('/models/litfass.glb');
   const x = 1;
@@ -19,33 +24,38 @@ export function Litfass({onPosterClick, ...props }) {
 
   const controls = useControls({
     'Poster 1': folder({
-      position1: { value: [0, -0.3, 1], step: 0.1 },
-      rotation1: { value: [0, 0, 0], step: 0.1 },
+      position1: { value: [0.0, 1.2, 1.0], step: 0.1 },
+      rotation1: { value: [0.0, 0.0, 0.0], step: 0.1 },
     }),
     'Poster 2': folder({
-      position2: { value: [0.9, 0.3, -0.5], step: 0.1 },
-      rotation2: { value: [0, 2, 0], step: 0.1 },
+      position2: { value: [0.9, -0.6, -0.5], step: 0.1 },
+      rotation2: { value: [0.0, 2.0, 0.0], step: 0.1 },
     }),
     'Poster 3': folder({
-      position3: { value: [-0.9, 0.6, -0.5], step: 0.1 },
-      rotation3: { value: [0, -2.1, 0], step: 0.1 },
+      position3: { value: [-0.9, -0.8, -0.5], step: 0.1 },
+      rotation3: { value: [0.0, -2.1, 0.0], step: 0.1 },
+    }),
+    'Poster 4': folder({
+      position4: { value: [-0.5, -0.8, 0.8], step: 0.1 },
+      rotation4: { value: [0.0, -0.7, 0.0], step: 0.1 },
+    }),
+    'Poster 5': folder({
+      position5: { value: [0.5, 0.1, 0.8], step: 0.1 },
+      rotation5: { value: [0.0, 0.7, 0.0], step: 0.1 },
+    }),
+    'Poster 6': folder({
+      position6: { value: [0.8, 1.3, 0.0], step: 0.1 },
+      rotation6: { value: [0.0, 1.5, 0.0], step: 0.1 },
+    }),
+    'Poster 7': folder({
+      position7: { value: [0.0, 0.6, -1.0], step: 0.1 },
+      rotation7: { value: [0.0, 3.1, 0.0], step: 0.1 },
+    }),
+    'Poster 8': folder({
+      position8: { value: [-0.8, 0.8, 0.0], step: 0.1 },
+      rotation8: { value: [0.0, -1.5, 0.0], step: 0.1 },
     }),
   });
-
-  // const controls = useControls({
-  //   'Poster 1': folder({
-  //     position1: { value: [0, 0, 1], step: 0.1 },
-  //     rotation1: { value: [0, 0, 0], step: 0.1 },
-  //   }),
-  //   'Poster 2': folder({
-  //     position2: { value: [Math.sin(2*Math.PI/3), 0, Math.cos(2*Math.PI/3)], step: 0.1 },
-  //     rotation2: { value: [0, -2*Math.PI/3, 0], step: 0.1 },
-  //   }),
-  //   'Poster 3': folder({
-  //     position3: { value: [Math.sin(4*Math.PI/3), 0, Math.cos(4*Math.PI/3)], step: 0.1 },
-  //     rotation3: { value: [0, -4*Math.PI/3, 0], step: 0.1 },
-  //   }),
-  // });
 
   // Create separate springs for each poster
   const [springs, setSprings] = useState(
@@ -73,6 +83,7 @@ export function Litfass({onPosterClick, ...props }) {
     newSprings[index][1].start({
       scale: [x * fac, y * fac, z * fac],
     });
+    onHoverChange(true);
   }
 
   const handlePointerLeave = (index) => () => {
@@ -80,6 +91,7 @@ export function Litfass({onPosterClick, ...props }) {
     newSprings[index][1].start({
       scale: [x, y, z],
     });
+    onHoverChange(false);
   }
 
   const getPosterProperties = (index) => {
@@ -99,9 +111,34 @@ export function Litfass({onPosterClick, ...props }) {
           position: controls.position3,
           rotation: controls.rotation3
         };
+      case 3:
+        return {
+          position: controls.position4,
+          rotation: controls.rotation4
+        };
+      case 4:
+        return {
+          position: controls.position5,
+          rotation: controls.rotation5
+        };
+      case 5:
+        return {
+          position: controls.position6,
+          rotation: controls.rotation6
+        };
+      case 6:
+        return {
+          position: controls.position7,
+          rotation: controls.rotation7
+        };
+      case 7:
+        return {
+          position: controls.position8,
+          rotation: controls.rotation8
+        };
       default:
         return {
-          position: [0, 0, 0],
+          position: [0, 0, 1],
           rotation: [0, 0, 0]
         };
     }
@@ -117,7 +154,7 @@ export function Litfass({onPosterClick, ...props }) {
           const [spring] = springs[index];
           return (
             <AnimatedDecal
-              debug
+              // debug
               key={index}
               position={position}
               rotation={rotation}
