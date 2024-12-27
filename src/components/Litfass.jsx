@@ -7,7 +7,7 @@ const AnimatedDecal = animated(Decal);
 
 export function Litfass({onPosterClick, onHoverChange, ...props }) {
   const textures = [
-    useTexture("/flyers/project01.png"),
+    useTexture("/flyers/AccessAbility.png"),
     useTexture("/flyers/project02.png"),
     useTexture("/flyers/project03.png"),
     useTexture("/flyers/project04.png"),
@@ -18,13 +18,13 @@ export function Litfass({onPosterClick, onHoverChange, ...props }) {
   ];
   const { nodes, materials } = useGLTF('/models/litfass.glb');
   const x = 1;
-  const y = 1.1;
+  const y = 1.2;
   const z = 1;
   const fac = 1.1;
 
   const controls = useControls({
     'Poster 1': folder({
-      position1: { value: [0.0, 1.2, 1.0], step: 0.1 },
+      position1: { value: [0.0, 1, 1.0], step: 0.1 },
       rotation1: { value: [0.0, 0.0, 0.0], step: 0.1 },
     }),
     'Poster 2': folder({
@@ -32,23 +32,23 @@ export function Litfass({onPosterClick, onHoverChange, ...props }) {
       rotation2: { value: [0.0, 2.0, 0.0], step: 0.1 },
     }),
     'Poster 3': folder({
-      position3: { value: [-0.9, -0.8, -0.5], step: 0.1 },
+      position3: { value: [-0.9, -0.6, -0.5], step: 0.1 },
       rotation3: { value: [0.0, -2.1, 0.0], step: 0.1 },
     }),
     'Poster 4': folder({
-      position4: { value: [-0.5, -0.8, 0.8], step: 0.1 },
+      position4: { value: [-0.5, -0.6, 0.8], step: 0.1 },
       rotation4: { value: [0.0, -0.7, 0.0], step: 0.1 },
     }),
     'Poster 5': folder({
-      position5: { value: [0.5, 0.1, 0.8], step: 0.1 },
+      position5: { value: [0.7, -0.4, 0.8], step: 0.1 },
       rotation5: { value: [0.0, 0.7, 0.0], step: 0.1 },
     }),
     'Poster 6': folder({
-      position6: { value: [0.8, 1.3, 0.0], step: 0.1 },
+      position6: { value: [0.8, 1, 0.0], step: 0.1 },
       rotation6: { value: [0.0, 1.5, 0.0], step: 0.1 },
     }),
     'Poster 7': folder({
-      position7: { value: [0.0, 0.6, -1.0], step: 0.1 },
+      position7: { value: [0.0, 0.8, -1.0], step: 0.1 },
       rotation7: { value: [0.0, 3.1, 0.0], step: 0.1 },
     }),
     'Poster 8': folder({
