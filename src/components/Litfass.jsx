@@ -150,8 +150,8 @@ export function Litfass({onPosterClick, onHoverChange, ...props }) {
 
   return (
     <group {...props} dispose={null}>
-      {/* Dark bricks */}
-      <mesh 
+
+      {/* <mesh 
         geometry={nodes.Path_Straight.geometry}
         material={materials.Stone_Dark}
         position={[0, -2, 0]}
@@ -159,14 +159,13 @@ export function Litfass({onPosterClick, onHoverChange, ...props }) {
         receiveShadow
       />
       
-      {/* Light bricks */}
       <mesh 
         geometry={nodes.Path_Straight001.geometry}
         material={materials.Stone_Light}
         position={[0, -2, 0]}
         scale={2}
         receiveShadow
-      />
+      /> */}
 
       <mesh geometry={nodes.Cylinder006.geometry} material={materials['Litfass_Material.001']} />
       <mesh geometry={nodes.Cylinder006_1.geometry}>

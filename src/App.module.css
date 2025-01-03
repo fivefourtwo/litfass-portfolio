@@ -56,7 +56,11 @@
 }
 
 .canvasContainer {
-  position: relative;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  right: 0;
+  top: 0;
   flex: 1;
 }
 
@@ -90,3 +94,4 @@
 .closeButton:hover {
   opacity: 0.8;
 }
+
