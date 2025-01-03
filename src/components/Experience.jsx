@@ -11,7 +11,7 @@ export const Experience = ({ onPosterClick }) => {
   useFrame((state, delta) => {
     if (orbitRef.current) {
       orbitRef.current.autoRotate = !isHovered;
-      orbitRef.current.autoRotateSpeed = 1;
+      orbitRef.current.autoRotateSpeed = -1;
     }
   });
 

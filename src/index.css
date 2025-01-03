@@ -1,16 +1,30 @@
-@import url('https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600&display=swap');
+/* index.css */
+:root {
+  /* Colors */
+  --background-color: #FAF9F6;
+  --text-color: black;
+  
+  /* Typography */
+  --font-family-main: 'Zilla Slab', serif;
+  --font-size-base: 20px;
+  --font-size-large: 24px;
+}
 
-#root {
-  width: 100vw;
+html, body, #root {
   height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: var(--background-color);
 }
 
 body {
-  margin: 0;
-  background-color: #FAF9F6;
+  font-family: var(--font-family-main);
+  color: var(--text-color);
 }
 
-canvas {
-  touch-action: none;
-  background-color: #FAF9F6;
+* {
+  -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
 }
