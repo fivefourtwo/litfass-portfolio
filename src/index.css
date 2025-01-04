@@ -5,7 +5,8 @@
   --text-color: black;
   
   /* Typography */
-  --font-family-main: 'Zilla Slab', serif;
+  --font-family-main: 'Consolas', monospace;
+  /* --font-family-main: 'Zilla Slab', serif; */
   --font-size-base: 20px;
   --font-size-large: 24px;
 }

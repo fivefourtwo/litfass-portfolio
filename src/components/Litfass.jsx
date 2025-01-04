@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Decal, useGLTF, useTexture } from '@react-three/drei';
+import { Decal, useGLTF, useTexture, Edges } from '@react-three/drei';
 import { useSpring, animated } from '@react-spring/three';
 import { useControls, folder } from 'leva';
 
@@ -167,7 +167,13 @@ export function Litfass({onPosterClick, onHoverChange, ...props }) {
         receiveShadow
       /> */}
 
-      <mesh geometry={nodes.Cylinder006.geometry} material={materials['Litfass_Material.001']} />
+      <mesh 
+        geometry={nodes.Cylinder006.geometry} 
+        material={materials['Litfass_Material.001']} 
+      >
+        {/* <meshStandardMaterial transparent opacity={0.5} />
+        <Edges color="black" /> */}
+      </mesh>
       <mesh geometry={nodes.Cylinder006_1.geometry}>
         <meshBasicMaterial transparent opacity={0} />
         {textures.map((texture, index) => {
