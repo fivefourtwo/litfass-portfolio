@@ -18,8 +18,8 @@ export function Litfass({onPosterClick, onHoverChange, ...props }) {
   ];
   const { nodes, materials } = useGLTF('/models/litfass-brick.glb');
 
-  console.log('Nodes:', nodes);
-  console.log('Materials:', materials);
+  // console.log('Nodes:', nodes);
+  // console.log('Materials:', materials);
 
   const x = 1;
   const y = 1.2;

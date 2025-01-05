@@ -20,45 +20,49 @@ function App() {
     setIsModalOpen(false);
   };
 
+  const moveA = () => {
+    console.log("hello world");
+  };
+
   return (
     <>
       <Leva />
       <div className={styles.container}>
         <div className={styles.leftSection}>
           <div className={styles.introText}>
-            Hi I'm Fabrice,<br/>
-            an Interaction Designer from the HfG in Schwäbisch Gmünd
+            <span className={`${styles.animateText}`}>Hi I'm Fabrice,</span>
+            <span className={`${styles.animateText}`}>an Interaction designer from the HfG in Schwäbisch Gmünd</span>
           </div>
           
           <div className={styles.sectionContainer}>
             <div className={styles.section}>
-              <div className={styles.sectionTitle}>Projects</div>
+              <div className={`${styles.sectionTitle} ${styles.animateText}`}>Projects</div>
               <div className={styles.sectionContent}>
                 <div className={styles.sectionText}>
-                  AccessAbility<br/>
-                  Tripadvisor Redesign<br/>
-                  CareSense<br/>
-                  Sonification
+                  <span className={`${styles.animateText}`} onClick={moveA}>AccessAbility</span>
+                  <span className={`${styles.animateText}`}>Tripadvisor Redesign</span>
+                  <span className={`${styles.animateText}`}>CareSense</span>
+                  <span className={`${styles.animateText}`}>Sonification</span>
                 </div>
               </div>
             </div>
 
             <div className={styles.section}>
-              <div className={styles.sectionTitle}>About me</div>
+              <div className={`${styles.sectionTitle} ${styles.animateText}`}>About me</div>
             </div>
 
             <div className={styles.section}>
-              <div className={styles.sectionTitle}>Contact</div>
+              <div className={`${styles.sectionTitle} ${styles.animateText}`}>Contact</div>
               <div className={styles.sectionContent}>
                 <div className={styles.sectionText}>
-                  E-Mail<br/>
-                  LinkedIn
+                  <span className={`${styles.animateText}`}>E-Mail</span>
+                  <span className={`${styles.animateText}`}>LinkedIn</span>
                 </div>
               </div>
             </div>
 
             <div className={styles.section}>
-              <div className={styles.sectionTitle}>Legal notice</div>
+              <div className={`${styles.sectionTitle} ${styles.animateText}`}>Legal notice</div>
             </div>
           </div>
         </div>

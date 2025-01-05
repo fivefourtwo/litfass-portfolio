@@ -1,4 +1,3 @@
-/* index.css */
 :root {
   /* Colors */
   --background-color: #FAF9F6;
@@ -6,11 +5,15 @@
   
   /* Typography */
   --font-family-main: 'Consolas', monospace;
-  /* --font-family-main: 'Zilla Slab', serif; */
   --font-size-base: 20px;
   --font-size-large: 24px;
+
+  /* Responsive font sizes */
+  --font-size-base-mobile: 16px;
+  --font-size-large-mobile: 20px;
 }
 
+/* Base styles remain the same until media queries */
 html, body, #root {
   height: 100vh;
   margin: 0;
@@ -26,6 +29,6 @@ body {
 
 * {
   -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
