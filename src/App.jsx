@@ -26,7 +26,7 @@ function App() {
 
   return (
     <>
-      <Leva />
+      <Leva hidden />
       <div className={styles.container}>
         <div className={styles.leftSection}>
           <div className={styles.introText}>

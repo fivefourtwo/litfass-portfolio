@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Decal, useGLTF, useTexture, Edges } from '@react-three/drei';
+import { Decal, useGLTF, useTexture } from '@react-three/drei';
 import { useSpring, animated } from '@react-spring/three';
-import { useControls, folder } from 'leva';
+import { useControls, folder, Leva } from 'leva';
 
 const AnimatedDecal = animated(Decal);
 
@@ -16,10 +16,8 @@ export function Litfass({onPosterClick, onHoverChange, ...props }) {
     useTexture("/flyers/project07.png"),
     useTexture("/flyers/project08.png")
   ];
-  const { nodes, materials } = useGLTF('/models/litfass-brick.glb');
-
-  // console.log('Nodes:', nodes);
-  // console.log('Materials:', materials);
+  
+  const { nodes, materials } = useGLTF('/models/litfass.glb');
 
   const x = 1;
   const y = 1.2;
@@ -61,7 +59,6 @@ export function Litfass({onPosterClick, onHoverChange, ...props }) {
     }),
   });
 
-  // Create separate springs for each poster
   const [springs, setSprings] = useState(
     textures.map(() => 
       useSpring(() => ({
@@ -75,12 +72,13 @@ export function Litfass({onPosterClick, onHoverChange, ...props }) {
   );
 
   const handleClickEvent = (index) => () => {
+    const { rotation, position } = getPosterProperties(index);
     const newSprings = [...springs];
     newSprings[index][1].start({
       scale: [2.25, 2.475, 2.7],
     });
-    onPosterClick(`This is the detailed information for Project ${index + 1}.`);
-  }
+    onPosterClick(rotation, position);
+  };
 
   const handlePointerEnter = (index) => () => {
     const newSprings = [...springs];
@@ -88,7 +86,7 @@ export function Litfass({onPosterClick, onHoverChange, ...props }) {
       scale: [x * fac, y * fac, z * fac],
     });
     onHoverChange(true);
-  }
+  };
 
   const handlePointerLeave = (index) => () => {
     const newSprings = [...springs];
@@ -96,7 +94,7 @@ export function Litfass({onPosterClick, onHoverChange, ...props }) {
       scale: [x, y, z],
     });
     onHoverChange(false);
-  }
+  };
 
   const getPosterProperties = (index) => {
     switch (index) {
@@ -146,33 +144,14 @@ export function Litfass({onPosterClick, onHoverChange, ...props }) {
           rotation: [0, 0, 0]
         };
     }
-  }
+  };
 
   return (
     <group {...props} dispose={null}>
-
-      {/* <mesh 
-        geometry={nodes.Path_Straight.geometry}
-        material={materials.Stone_Dark}
-        position={[0, -2, 0]}
-        scale={2}
-        receiveShadow
-      />
-      
-      <mesh 
-        geometry={nodes.Path_Straight001.geometry}
-        material={materials.Stone_Light}
-        position={[0, -2, 0]}
-        scale={2}
-        receiveShadow
-      /> */}
-
       <mesh 
         geometry={nodes.Cylinder006.geometry} 
         material={materials['Litfass_Material.001']} 
       >
-        {/* <meshStandardMaterial transparent opacity={0.5} />
-        <Edges color="black" /> */}
       </mesh>
       <mesh geometry={nodes.Cylinder006_1.geometry}>
         <meshBasicMaterial transparent opacity={0} />
@@ -181,7 +160,6 @@ export function Litfass({onPosterClick, onHoverChange, ...props }) {
           const [spring] = springs[index];
           return (
             <AnimatedDecal
-              // debug
               key={index}
               position={position}
               rotation={rotation}
@@ -202,4 +180,5 @@ export function Litfass({onPosterClick, onHoverChange, ...props }) {
     </group>
   );
 }
-useGLTF.preload('/models/litfass-brick.glb');
+
+useGLTF.preload('/models/litfass.glb');
