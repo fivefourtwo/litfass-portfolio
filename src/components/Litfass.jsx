@@ -62,7 +62,7 @@ export function Litfass({onPosterClick, onHoverChange, ...props }) {
   });
 
   // Create separate springs for each poster
-  const [springs, setSprings] = useState(
+  const [springs] = useState(
     textures.map(() => 
       useSpring(() => ({
         scale: [x, y, z],
@@ -75,12 +75,13 @@ export function Litfass({onPosterClick, onHoverChange, ...props }) {
   );
 
   const handleClickEvent = (index) => () => {
-    const newSprings = [...springs];
-    newSprings[index][1].start({
-      scale: [2.25, 2.475, 2.7],
+    const { position, rotation } = getPosterProperties(index);
+    onPosterClick({
+      description: `This is the detailed information for Project ${index + 1}.`,
+      position, // position of the poster
+      rotation // rotation of the poster
     });
-    onPosterClick(`This is the detailed information for Project ${index + 1}.`);
-  }
+  };
 
   const handlePointerEnter = (index) => () => {
     const newSprings = [...springs];
@@ -150,30 +151,10 @@ export function Litfass({onPosterClick, onHoverChange, ...props }) {
 
   return (
     <group {...props} dispose={null}>
-
-      {/* <mesh 
-        geometry={nodes.Path_Straight.geometry}
-        material={materials.Stone_Dark}
-        position={[0, -2, 0]}
-        scale={2}
-        receiveShadow
-      />
-      
-      <mesh 
-        geometry={nodes.Path_Straight001.geometry}
-        material={materials.Stone_Light}
-        position={[0, -2, 0]}
-        scale={2}
-        receiveShadow
-      /> */}
-
       <mesh 
         geometry={nodes.Cylinder006.geometry} 
         material={materials['Litfass_Material.001']} 
-      >
-        {/* <meshStandardMaterial transparent opacity={0.5} />
-        <Edges color="black" /> */}
-      </mesh>
+      />
       <mesh geometry={nodes.Cylinder006_1.geometry}>
         <meshBasicMaterial transparent opacity={0} />
         {textures.map((texture, index) => {
