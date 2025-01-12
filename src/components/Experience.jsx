@@ -37,8 +37,8 @@ export const Experience = () => {
       fov: 45
     },
     zoomed: {
-      distance: 1,
-      targetOffset: 0.4,
+      distance: 3,
+      targetOffset: 0,
       fov: 45
     },
     controls: {
