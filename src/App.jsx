@@ -7,21 +7,53 @@ import styles from './App.module.css';
 
 Modal.setAppElement('#root');
 
+const MODAL_CONTENT = {
+  0: {
+    title: "AccessAbility",
+    description: "Detailed information about AccessAbility project...",
+    image: "/flyers/AccessAbility.png"
+  },
+  1: {
+    title: "Project 2",
+    description: "Detailed information about Project 2...",
+    image: "/flyers/project02.png"
+  },
+  // Add content for all 8 posters
+};
+
 function App() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalContent, setModalContent] = useState('');
+  const [modalState, setModalState] = useState({
+    isOpen: false,
+    content: null,
+    posterIndex: null
+  });
+
+  const [collapsedSections, setCollapsedSections] = useState({
+    projects: true,
+    contact: true
+  });
+
+  const toggleSection = (section) => {
+    setCollapsedSections(prev => ({
+      ...prev,
+      [section]: !prev[section]
+    }));
+  };
 
   const openModal = (content) => {
-    setModalContent(content);
-    setIsModalOpen(true);
+    setModalState({
+      isOpen: true,
+      content: MODAL_CONTENT[content.posterIndex],
+      posterIndex: content.posterIndex
+    });
   };
 
   const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
-  const moveA = () => {
-    console.log("hello world");
+    setModalState({
+      isOpen: false,
+      content: null,
+      posterIndex: null
+    });
   };
 
   return (
@@ -36,10 +68,15 @@ function App() {
           
           <div className={styles.sectionContainer}>
             <div className={styles.section}>
-              <div className={`${styles.sectionTitle} ${styles.animateText}`}>Projects</div>
-              <div className={styles.sectionContent}>
+              <div 
+                className={`${styles.sectionTitle} ${styles.animateText} ${styles.collapsible}`}
+                onClick={() => toggleSection('projects')}
+              >
+                Projects {collapsedSections.projects ? '▼' : '▲'}
+              </div>
+              <div className={`${styles.sectionContent} ${collapsedSections.projects ? styles.collapsed : ''}`}>
                 <div className={styles.sectionText}>
-                  <span className={`${styles.animateText}`} onClick={moveA}>AccessAbility</span>
+                  <span className={`${styles.animateText}`}>AccessAbility</span>
                   <span className={`${styles.animateText}`}>Tripadvisor Redesign</span>
                   <span className={`${styles.animateText}`}>CareSense</span>
                   <span className={`${styles.animateText}`}>Sonification</span>
@@ -52,8 +89,13 @@ function App() {
             </div>
 
             <div className={styles.section}>
-              <div className={`${styles.sectionTitle} ${styles.animateText}`}>Contact</div>
-              <div className={styles.sectionContent}>
+              <div 
+                className={`${styles.sectionTitle} ${styles.animateText} ${styles.collapsible}`}
+                onClick={() => toggleSection('contact')}
+              >
+                Contact {collapsedSections.contact ? '▼' : '▲'}
+              </div>
+              <div className={`${styles.sectionContent} ${collapsedSections.contact ? styles.collapsed : ''}`}>
                 <div className={styles.sectionText}>
                   <span className={`${styles.animateText}`}>E-Mail</span>
                   <span className={`${styles.animateText}`}>LinkedIn</span>
@@ -83,15 +125,23 @@ function App() {
         </div>
 
         <Modal 
-          isOpen={isModalOpen} 
+          isOpen={modalState.isOpen} 
           onRequestClose={closeModal}
           className={styles.modalContent}
+          overlayClassName={styles.modalOverlay}
         >
-          <div>
-            <h2 className={styles.modalTitle}>Project Details</h2>
-            <p>{modalContent}</p>
-            <button className={styles.closeButton} onClick={closeModal}>Close</button>
-          </div>
+          {modalState.content && (
+            <div className={styles.modalInner}>
+              <h2 className={styles.modalTitle}>{modalState.content.title}</h2>
+              <img 
+                src={modalState.content.image} 
+                alt={modalState.content.title}
+                className={styles.modalImage}
+              />
+              <p className={styles.modalDescription}>{modalState.content.description}</p>
+              <button className={styles.closeButton} onClick={closeModal}>Close</button>
+            </div>
+          )}
         </Modal>
       </div>
     </>

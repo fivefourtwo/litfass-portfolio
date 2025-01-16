@@ -77,9 +77,9 @@ export function Litfass({onPosterClick, onHoverChange, ...props }) {
   const handleClickEvent = (index) => () => {
     const { position, rotation } = getPosterProperties(index);
     onPosterClick({
-      description: `This is the detailed information for Project ${index + 1}.`,
-      position, // position of the poster
-      rotation // rotation of the poster
+      posterIndex: index,
+      position,
+      rotation
     });
   };
 

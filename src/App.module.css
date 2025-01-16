@@ -107,30 +107,63 @@
 }
 
 /* Modal styles */
+.modalOverlay {
+  position: fixed;
+  top: 0px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  z-index: 1000;
+}
+
 .modalContent {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  position: relative;
   background: var(--background-color);
-  padding: 20px;
+  width: 50%;
+  height: 100vh;
+  padding: 0px 40px;
+  outline: none;
+  overflow-y: auto;
+}
+
+.modalInner {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.modalImage {
+  width: 100%;
+  height: auto;
+  margin: 20px 0;
   border-radius: 8px;
-  max-width: 500px;
-  width: 90%;
 }
 
 .modalTitle {
-  margin-bottom: 16px;
+  font-size: 32px;
+  margin-bottom: 20px;
+}
+
+.modalDescription {
+  font-size: 18px;
+  line-height: 1.6;
+  margin-bottom: 30px;
 }
 
 .closeButton {
-  margin-top: 16px;
+  position: absolute;
+  top: 20px;
+  right: 20px;
   padding: 8px 16px;
   cursor: pointer;
   border: none;
   background: #000;
   color: white;
   border-radius: 4px;
+  font-size: 16px;
 }
 
 .closeButton:hover {
@@ -177,6 +210,11 @@
   .container {
     gap: 40px;
   }
+
+  .modalContent {
+    width: 100%;
+    padding: 20px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -195,4 +233,28 @@
     padding: 16px;
     width: 95%;
   }
+}
+
+.collapsible {
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.collapsible:hover {
+  opacity: 0.8;
+}
+
+.sectionContent {
+  max-height: 500px;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+}
+
+.collapsed {
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 0.3s ease-out, opacity 0.2s ease-out;
 }

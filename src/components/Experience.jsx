@@ -8,7 +8,7 @@ import { useControls } from "leva";
 
 const AnimatedPerspectiveCamera = animated(PerspectiveCamera);
 
-export const Experience = () => {
+export const Experience = ({ onPosterClick }) => {
   const orbitRef = useRef();
   const cameraRef = useRef();
   const objectRef = useRef();
@@ -111,6 +111,8 @@ export const Experience = () => {
         }
       });
       setIsZoomedIn(true);
+      // Call the parent's onPosterClick
+      onPosterClick(content);
     } else {
       // Reset to default view with possibly different animation settings
       api.start({
